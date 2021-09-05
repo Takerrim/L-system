@@ -4,7 +4,7 @@ export default (data: { hypotenuse: number, angle: number }) => {
   const { hypotenuse, angle } = data
 
   return {
-    x: angle === 90 || angle === 270 ? 0 : (hypotenuse * Math.cos(degreeToRadian(angle))),
-    y: angle % 180 === 0 || angle === 0 ? 0 : (hypotenuse * Math.sin(degreeToRadian(angle))),
+    x: [270, 90].includes(angle) ? 0 : (hypotenuse * Math.cos(degreeToRadian(angle))),
+    y: [180, 0].includes(angle) ? 0 : (hypotenuse * Math.sin(degreeToRadian(angle))),
   }
 }
