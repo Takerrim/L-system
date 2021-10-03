@@ -6,7 +6,8 @@ import getCatets from "./utils/getCatets";
 const LINE_LENGTH = 20; // px
 
 const angles = {
-  [LSystemTypes.PifagorTree]: 45
+  [LSystemTypes.PifagorTree]: 45,
+  [LSystemTypes.FractalTree]: 25
 };
 
 const rulesDictionary = {
@@ -20,7 +21,15 @@ const rulesDictionary = {
     "1": "0",
     "[": "1",
     "]": "-1"
-  }
+  },
+  [LSystemTypes.FractalTree]: {
+    "F": "0",
+    "X": "0",
+    "[": "1",
+    "]": "-1",
+    "+": '1',
+    "-": '-1'
+  },
 };
 
 export default class LSystemCanvas extends AbstractLSystemDrawer {

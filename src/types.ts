@@ -1,5 +1,6 @@
 export enum LSystemTypes {
-  PifagorTree = "PifagorTree"
+  PifagorTree = "PifagorTree",
+  FractalTree = "FractalTree",
 }
 
 export interface IState {

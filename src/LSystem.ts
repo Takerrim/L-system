@@ -3,10 +3,9 @@ import { LSystemTypes } from "./types";
 type RuleType = {
   rules: Record<string, string>;
   axiom: string;
-  vars: string[];
-  consts: string[];
+  vars: string;
+  consts: string;
   maxIterations: number;
-  count: number;
 };
 
 const rulesMap: Record<LSystemTypes, RuleType> = {
@@ -16,43 +15,47 @@ const rulesMap: Record<LSystemTypes, RuleType> = {
       "1": "11"
     },
     axiom: "0",
-    vars: ["0", "1"],
-    consts: ["[", "]"],
+    vars: '01',
+    consts: '[]',
     maxIterations: 5,
-    count: 0
-  }
+  },
+  [LSystemTypes.FractalTree]: {
+    rules: {
+      "X": "F-[[X]+X]+F[+FX]-X",
+      "F": "FF",
+    },
+    axiom: "X",
+    vars: 'XF',
+    consts: '+-[]',
+    maxIterations: 2,
+  },
 };
 
 export default class LSystem {
-  public alphabet!: string;
+  private alphabet!: string;
+
+  private currentIterationCount: number = 0
 
   constructor(private ruleName: LSystemTypes) {
     this.alphabet = rulesMap[ruleName].axiom;
-    this.getOutput();
   }
 
-  private getOutput() {
-    const rulesInfo = rulesMap[this.ruleName];
+  public getOutput() {
+    const { maxIterations, consts, rules } = rulesMap[this.ruleName];
 
-    if (rulesInfo.count === rulesInfo.maxIterations) {
+    if (this.currentIterationCount === maxIterations) {
       return this.alphabet;
     }
 
-    const arr = this.alphabet.split("");
     let output = "";
 
-    for (let i = 0; i < arr.length; ++i) {
-      const sign = arr[i];
-
-      if (rulesInfo.consts.includes(sign)) {
-        output += sign;
-        continue;
-      }
-      output += rulesInfo.rules[sign];
+    for (let i = 0; i < this.alphabet.length; ++i) {
+      const sign = this.alphabet[i];
+      output += consts.includes(sign) ? sign : rules[sign];
     }
 
     this.alphabet = output;
-    rulesInfo.count++;
-    this.getOutput();
+    this.currentIterationCount++;
+    return this.getOutput();
   }
 }

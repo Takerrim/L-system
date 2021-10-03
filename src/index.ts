@@ -4,6 +4,6 @@ import { LSystemTypes } from "./types";
 
 const visualisation = new LSystemVisualisation();
 
-const pifagorTreeLSystem = new LSystem(LSystemTypes.PifagorTree);
+const output = new LSystem(LSystemTypes.FractalTree).getOutput();
 
-visualisation.render(pifagorTreeLSystem.alphabet)
+visualisation.render(output)
