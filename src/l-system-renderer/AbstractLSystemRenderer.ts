@@ -1,4 +1,4 @@
-import { IState } from "./types";
+import { IState } from "../types";
 
 export default abstract class AbstractLSystemDrawer {
   protected ctx!: CanvasRenderingContext2D;
@@ -27,8 +27,12 @@ export default abstract class AbstractLSystemDrawer {
     return this.state;
   }
 
+  public destroy() {
+    this.ctx.canvas.remove()
+  }
+
   protected set currentState(state: Partial<IState>) {
-    Object.assign(this.currentState, state);
+    Object.assign(this.state, state);
   }
 
   public abstract render(alphabet: string): void;

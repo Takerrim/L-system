@@ -1,9 +1,34 @@
 import LSystem from "./LSystem";
-import LSystemVisualisation from "./LSystemVisualisation";
+import {
+  LSystemPifagorTreeRenderer,
+  LSystemFractalTreeRenderer,
+} from "./l-system-renderer";
+
 import { LSystemTypes } from "./types";
 
-const visualisation = new LSystemVisualisation();
+const changeTree = (event: { target: HTMLButtonElement }) => {
+  document.querySelector('canvas').remove()
+  const tree = event.target.dataset.tree
+  switch (tree) {
+    case 'pifagorTree':
+      const pifagorTreeRenderer = new LSystemPifagorTreeRenderer();
+      pifagorTreeRenderer.render(new LSystem(LSystemTypes.PifagorTree).getOutput())
+      break;
+    case 'fractalTree':
+      const fractalTreeRenderer = new LSystemFractalTreeRenderer();
+      fractalTreeRenderer.render(new LSystem(LSystemTypes.FractalTree).getOutput())
+      break;
+  }
+}
 
-const output = new LSystem(LSystemTypes.FractalTree).getOutput();
+const buttons = document.querySelectorAll('.button')
 
-visualisation.render(output)
+buttons.forEach((button) => {
+  button.addEventListener('click', changeTree)
+})
+
+const pifagorTreeRenderer = new LSystemPifagorTreeRenderer();
+
+const output = new LSystem(LSystemTypes.PifagorTree).getOutput();
+
+pifagorTreeRenderer.render(output)

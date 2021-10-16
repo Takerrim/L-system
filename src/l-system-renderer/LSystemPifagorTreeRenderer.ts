@@ -1,44 +1,17 @@
-import { LSystemTypes } from "./types";
-import AbstractLSystemDrawer from "./AbstractLSystemDrawer";
-import degreeToRadian from './utils/degreeToRadian'
-import getCatets from "./utils/getCatets";
+import { LSystemTypes } from "../types";
+import AbstractLSystemRenderer from "./AbstractLSystemRenderer";
+import degreeToRadian from '../utils/degreeToRadian'
+import getCatets from "../utils/getCatets";
+import { angles, LINE_LENGTH, rulesDictionary } from '../consts'
 
-const LINE_LENGTH = 20; // px
 
-const angles = {
-  [LSystemTypes.PifagorTree]: 45,
-  [LSystemTypes.FractalTree]: 25
-};
-
-const rulesDictionary = {
-  /**
-   * @field {string} 0 - draw line
-   * @field {string} 1 - add to stack position and angle, rotate 45 degrees
-   * @field {string} -1 - remove from stack position and angle, rotate -45 degrees
-   */
-  [LSystemTypes.PifagorTree]: {
-    "0": "0",
-    "1": "0",
-    "[": "1",
-    "]": "-1"
-  },
-  [LSystemTypes.FractalTree]: {
-    "F": "0",
-    "X": "0",
-    "[": "1",
-    "]": "-1",
-    "+": '1',
-    "-": '-1'
-  },
-};
-
-export default class LSystemCanvas extends AbstractLSystemDrawer {
+export default class LSystemPifagorTreeRenderer extends AbstractLSystemRenderer {
   constructor() {
     super();
     this.init();
   }
 
-  private draw(alphabet: string) {
+  public render(alphabet: string) {
     const { ctx } = this;
 
     const commands = {
@@ -68,19 +41,9 @@ export default class LSystemCanvas extends AbstractLSystemDrawer {
       }
     };
 
-    for (let i = 0; i < alphabet.length; ++i) {
-      const rule = alphabet[
-        i
-      ] as keyof typeof rulesDictionary[LSystemTypes.PifagorTree];
-
+    for (let rule of alphabet) {
       const commandKey = rulesDictionary[LSystemTypes.PifagorTree][rule];
-
-
       commands[commandKey as keyof typeof commands]();
     }
-  }
-
-  public render(alphabet: string) {
-    this.draw(alphabet);
   }
 }

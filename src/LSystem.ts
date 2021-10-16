@@ -27,7 +27,7 @@ const rulesMap: Record<LSystemTypes, RuleType> = {
     axiom: "X",
     vars: 'XF',
     consts: '+-[]',
-    maxIterations: 2,
+    maxIterations: 5,
   },
 };
 
